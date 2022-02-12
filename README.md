@@ -1,6 +1,6 @@
 # AdminUi
 
-I was tried to impletement all the functionalities
+I was tried to implement all the functionalities
 
 Here is my component structure
 
@@ -10,3 +10,5 @@ Here is my component structure
       - AdminUiMainComponent
       - ListItem
       - Pagination
+
+I was deployed this problem in https://geektrustadminu.ccbp.tech
