@@ -1,0 +1,21 @@
+.member-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.column-text {
+  font-family: Roboto;
+  font-size: 20px;
+  width: 150px;
+}
+
+.delete-button {
+  background-color: transparent;
+  font-size: 20px;
+  border: none;
+  width: 60px;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+}
