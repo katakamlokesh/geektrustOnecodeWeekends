@@ -6,20 +6,28 @@ const ListItem = props => {
   const {memberDetails, deleteMemberListItem, updateSelectedMembersList} = props
 
   const onClickCheckbox = event => {
-    if (event.target.checked) {
-      updateSelectedMembersList(event.target.id)
-    }
+    updateSelectedMembersList(event.target.checked, memberDetails.id)
   }
 
   const onClickDelete = () => {
     deleteMemberListItem(memberDetails.id)
   }
 
+  const itemClass = memberDetails.checked
+    ? 'selected-active member-list-item'
+    : 'member-list-item'
+
   return (
-    <li className="member-list-item">
-      <input type="checkbox" id={memberDetails.id} onChange={onClickCheckbox} />
+    <li className={itemClass}>
+      <input
+        type="checkbox"
+        id={memberDetails.id}
+        onChange={onClickCheckbox}
+        checked={memberDetails.checked}
+        className="checkbox-class"
+      />
       <p className="column-text">{memberDetails.name}</p>
-      <p className="column-text">{memberDetails.email}</p>
+      <p className="column-text-email">{memberDetails.email}</p>
       <p className="column-text">{memberDetails.role}</p>
       <button type="button" className="delete-button" onClick={onClickDelete}>
         <AiOutlineDelete />

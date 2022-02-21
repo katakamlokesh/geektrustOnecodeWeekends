@@ -4,8 +4,17 @@
   justify-content: space-between;
   width: 74px;
   height: 24px;
-  width: 350px;
+  width: 250px;
   align-self: center;
+}
+
+@media screen and (min-width: 768px) {
+  .pagination-counter-container {
+    width: 74px;
+    height: 24px;
+    width: 350px;
+    align-self: center;
+  }
 }
 
 .pagination-counter-button {
@@ -13,12 +22,19 @@
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   color: #475569;
   border: 0.75px solid #475569;
   box-sizing: border-box;
   border-radius: 2.25px;
+}
+
+@media screen and (min-width: 768px) {
+  .pagination-counter-button {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .pagination-count {
@@ -34,12 +50,12 @@
 }
 
 .button {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 24px;
   color: #ffffff;
   border-radius: 50%;
@@ -49,6 +65,15 @@
   cursor: pointer;
   outline: none;
   margin: 6px;
+}
+
+@media screen and (min-width: 768px) {
+  .button {
+    height: 40px;
+    width: 40px;
+    font-size: 16px;
+    line-height: 24px;
+  }
 }
 
 .active {

@@ -22,9 +22,7 @@ class AdminUi extends Component {
     membersList: [],
     activePage: 1,
     limit: 10,
-    isAllItemsChecked: false,
     searchInput: '',
-    batchDeleteList: [],
     showSearchResults: false,
     searchResults: [],
   }
@@ -49,6 +47,7 @@ class AdminUi extends Component {
         name: eachObject.name,
         email: eachObject.email,
         role: eachObject.role,
+        checked: false,
       }))
 
       const offset = (activePage - 1) * limit
@@ -64,17 +63,21 @@ class AdminUi extends Component {
     }
   }
 
-  onClickSearch = () => {
+  onKeyDownEnter = event => {
     const {membersList, searchInput} = this.state
+    if (event.key === 'Enter') {
+      const searchResults = membersList.filter(
+        each =>
+          each.name.toLowerCase().includes(searchInput) ||
+          each.email.toLowerCase().includes(searchInput) ||
+          each.role.toLowerCase().includes(searchInput),
+      )
 
-    const searchResults = membersList.filter(
-      each =>
-        each.name.toLowerCase().includes(searchInput) ||
-        each.email.toLowerCase().includes(searchInput) ||
-        each.role.toLowerCase().includes(searchInput),
-    )
-
-    this.setState({showSearchResults: true, searchResults})
+      this.setState(prevState => ({
+        showSearchResults: !prevState.showSearchResults,
+        searchResults,
+      }))
+    }
   }
 
   onChangeSearch = event => {
@@ -91,42 +94,43 @@ class AdminUi extends Component {
           value={searchInput}
           placeholder="Search by name,email or role"
           onChange={this.onChangeSearch}
+          onKeyDown={this.onKeyDownEnter}
           className="input-container"
         />
-        <button
-          type="button"
-          className="search-button"
-          onClick={this.onClickSearch}
-        >
+        <button type="button" className="search-button">
           <BsSearch />
         </button>
       </div>
     )
   }
 
-  onClickMainCheckbox = () => {
-    this.setState(prevState => ({
-      isAllItemsChecked: !prevState.isAllItemsChecked,
+  onClickMainCheckbox = event => {
+    const {membersList} = this.state
+
+    const newList = membersList.map(each => ({
+      ...each,
+      checked: event.target.checked,
     }))
+
+    this.setState({membersList: newList})
   }
 
-  updateSelectedMembersList = id => {
-    const {batchDeleteList} = this.state
+  updateSelectedMembersList = (value, id) => {
+    const {membersList} = this.state
 
-    this.setState({batchDeleteList: [...batchDeleteList, id]})
+    const newList = membersList.map(each =>
+      each.id === id ? {...each, checked: value} : each,
+    )
+
+    this.setState({membersList: newList})
   }
 
-  onClickDeleteSelected = () => {
-    const {batchDeleteList, membersList} = this.state
+  onClickDeleteSelected = event => {
+    event.preventDefault()
+    const {membersList} = this.state
+    const newList = membersList.filter(each => each.checked === false)
 
-    const newList = [...membersList]
-
-    batchDeleteList.forEach(id => {
-      console.log(typeof id)
-      newList.filter(each => each.id !== id)
-    })
-
-    console.log(newList)
+    this.setState({membersList: newList})
   }
 
   deleteMemberListItem = memberId => {
@@ -158,7 +162,7 @@ class AdminUi extends Component {
   }
 
   renderSearchResults = () => {
-    const {searchResults, isAllItemsChecked} = this.state
+    const {searchResults} = this.state
 
     return searchResults.length > 0 ? (
       <>
@@ -167,7 +171,6 @@ class AdminUi extends Component {
             key={eachMember.id}
             memberDetails={eachMember}
             deleteMemberListItem={this.deleteMemberListItem}
-            isChecked={isAllItemsChecked}
             updateSelectedMembersList={this.updateSelectedMembersList}
           />
         ))}
@@ -186,12 +189,16 @@ class AdminUi extends Component {
     } = this.state
 
     return (
-      <div className="content-container">
+      <form className="content-container" onSubmit={this.onClickDeleteSelected}>
         <ul className="list-container">
           <div className="column-line">
-            <input type="checkbox" onChange={this.onClickMainCheckbox} />
+            <input
+              type="checkbox"
+              className="checkbox-class"
+              onChange={this.onClickMainCheckbox}
+            />
             <h1 className="column-heading">Name</h1>
-            <h1 className="column-heading">Email</h1>
+            <h1 className="column-heading-email">Email</h1>
             <h1 className="column-heading">Role</h1>
             <h1 className="column-heading">Actions</h1>
           </div>
@@ -217,14 +224,10 @@ class AdminUi extends Component {
           decrementActivePage={this.decrementActivePage}
           updateActivePage={this.updateActivePage}
         />
-        <button
-          type="button"
-          className="delete-selected-button"
-          onClick={this.onClickDeleteSelected}
-        >
+        <button type="submit" className="delete-selected-button">
           Delete Selected
         </button>
-      </div>
+      </form>
     )
   }
 

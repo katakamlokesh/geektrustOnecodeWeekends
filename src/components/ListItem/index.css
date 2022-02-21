@@ -4,12 +4,38 @@
   justify-content: space-between;
 }
 
-.column-text {
-  font-family: Roboto;
-  font-size: 20px;
-  width: 150px;
+.checkbox-class {
+  margin-right: 16px;
+  height: 20px;
+  width: 20px;
 }
 
+.column-text {
+  font-family: Roboto;
+  font-size: 12px;
+  max-width: 150px;
+}
+@media screen and (min-width: 768px) {
+  .column-text {
+    font-size: 16px;
+    max-width: 200px;
+  }
+}
+
+.column-text-email {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Roboto;
+  font-size: 12px;
+  max-width: 200px;
+}
+@media screen and (min-width: 768px) {
+  .column-text-email {
+    font-size: 16px;
+    max-width: 300px;
+  }
+}
 .delete-button {
   background-color: transparent;
   font-size: 20px;
@@ -18,4 +44,8 @@
   padding: 0;
   outline: none;
   cursor: pointer;
+}
+
+.selected-active {
+  background-color: gray;
 }
